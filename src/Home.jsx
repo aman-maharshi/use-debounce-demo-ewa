@@ -1,24 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Cross, Search } from "./icons"
-import { useDebouncedCallback } from "use-debounce"
 
 const Home = () => {
   const [search, setSearch] = useState("")
-  const [debouncedSearch, setDebouncedSearch] = useState("")
-
-  const debounce = useDebouncedCallback(value => setDebouncedSearch(value), 500)
 
   const handleSearch = (e) => {
     const newSearch = e.target.value
     setSearch(newSearch)
-    debounce(newSearch)
   }
 
   useEffect(() => {
-    if (debouncedSearch) {
-      console.log(debouncedSearch)
+    if (search) {
+      console.log(search)
     }
-  }, [debouncedSearch])
+  }, [search])
 
 
   return (
