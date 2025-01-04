@@ -1,14 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Cross, Search } from "./icons"
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
-  const [search, setSearch] = useState("")
+
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const query = params.get('search') || ''
+
+  const [search, setSearch] = useState(query)
 
   const handleSearch = (e) => {
     const newSearch = e.target.value
     console.log(newSearch)
     setSearch(newSearch)
+
+    // Update the URL query string
+    if (newSearch) {
+      params.set('search', newSearch)
+    } else {
+      params.delete('search')
+    }
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
   }
+
+  const handleClearSearch = () => {
+    setSearch('')
+    params.delete('search')
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
+  }
+
+
 
   return (
     <div className='h-screen flex justify-center items-center bg-[#393939] text-white'>
@@ -24,7 +46,7 @@ const Home = () => {
 
         {search && (
           <button
-            onClick={() => setSearch('')}
+            onClick={handleClearSearch}
             className='cursor-pointer'
           >
             <Cross />

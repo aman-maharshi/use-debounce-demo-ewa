@@ -1,6 +1,6 @@
 # Preview
 
-<img src="./src/assets/screenshot.png" alt="Local Image" width="350"/>
+<img src="./src/assets/screenshot.png" alt="Local Image" width="400"/>
 
 
 ```sh
