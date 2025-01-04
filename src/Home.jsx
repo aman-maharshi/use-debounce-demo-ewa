@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Cross, Search } from "./icons"
 
 const Home = () => {
@@ -6,9 +6,15 @@ const Home = () => {
 
   const handleSearch = (e) => {
     const newSearch = e.target.value
-    console.log(newSearch)
     setSearch(newSearch)
   }
+
+  useEffect(() => {
+    if (search) {
+      console.log(search)
+    }
+  }, [search])
+
 
   return (
     <div className='h-screen flex justify-center items-center bg-[#393939] text-white'>
