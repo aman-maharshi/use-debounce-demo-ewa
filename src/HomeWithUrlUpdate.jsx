@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Cross, Search } from "./icons"
 import { useLocation } from 'react-router-dom';
+import { useDebouncedCallback } from "use-debounce"
 
 const Home = () => {
 
@@ -9,28 +10,34 @@ const Home = () => {
   const query = params.get('search') || ''
 
   const [search, setSearch] = useState(query)
+  const [debouncedSearch, setDebouncedSearch] = useState(query)
+
+  const debounce = useDebouncedCallback(value => setDebouncedSearch(value), 500)
 
   const handleSearch = (e) => {
     const newSearch = e.target.value
-    console.log(newSearch)
     setSearch(newSearch)
+    debounce(newSearch)
 
+
+  }
+
+  useEffect(() => {
     // Update the URL query string
-    if (newSearch) {
-      params.set('search', newSearch)
+    if (debouncedSearch) {
+      params.set('search', debouncedSearch)
     } else {
       params.delete('search')
     }
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
-  }
+  }, [debouncedSearch])
+
 
   const handleClearSearch = () => {
     setSearch('')
     params.delete('search')
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
   }
-
-
 
   return (
     <div className='h-screen flex justify-center items-center bg-[#393939] text-white'>
