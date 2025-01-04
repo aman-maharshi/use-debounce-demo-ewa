@@ -24,13 +24,13 @@ const Home = () => {
 
   useEffect(() => {
     // Update the URL query string
-    if (search) {
-      params.set('search', search)
+    if (debouncedSearch) {
+      params.set('search', debouncedSearch)
     } else {
       params.delete('search')
     }
     window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`)
-  }, [search])
+  }, [debouncedSearch])
 
 
   const handleClearSearch = () => {
